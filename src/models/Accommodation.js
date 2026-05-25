@@ -28,7 +28,7 @@ const accommodationSchema = new mongoose.Schema(
       required: true,
       min: 1,
     },
-    user: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
