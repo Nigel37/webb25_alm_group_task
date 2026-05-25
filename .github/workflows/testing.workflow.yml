@@ -1,37 +1,27 @@
 # TODO: Add workflow to run tests on push and pull requests to main
-  name: Testing with GitHub Actions
+name: CI - Run Tests
 
-  on:
-    push:
-      branches: [ main , dev]
-    pull_request:
-      branches: [ main , dev]
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
-  jobs:
-    test:
-      runs-on: ubuntu-latest
+jobs:
+  test:
+    runs-on: ubuntu-latest
 
-      strategy:
-        matrix:
-          node-version: [18.x, 20.x]
-
-      steps:
-      - name: Checkout code
+    steps:
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js ${{ matrix.node-version }}
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          node-version: 20
 
       - name: Install dependencies
-        run: npm ci
-
-      - name: Set environment variables
-        run: |
-          echo "NODE_ENV=test" >> $GITHUB_ENV
-          echo "PORT=3000" >> $GITHUB_ENV
+        run: npm install
 
       - name: Run tests
         run: npm test
