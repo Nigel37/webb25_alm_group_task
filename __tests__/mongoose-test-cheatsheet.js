@@ -5,9 +5,10 @@
  * Use this as a reference when writing your tests.
  */
 
-const { MongoMemoryServer } = require("mongodb-memory-server");
-const mongoose = require("mongoose");
-const { beforeAll, afterAll, afterEach, describe, it, expect } = require("vitest");
+
+import { MongoMemoryServer } from "mongodb-memory-server";
+import mongoose from "mongoose";
+import { beforeAll, afterAll, afterEach, describe, it, expect } from "vitest";
 
 // ==========================================
 // 1. Test Database Setup
