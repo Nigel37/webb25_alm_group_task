@@ -5,30 +5,30 @@ import User from "../../src/models/User.js";
 describe("User Model", () => {
   it("should create a user", async () => {
     const user = await User.create({
-      username: "testuser",
-      email: "test@test.com",
-      profileImage: "https://example.com/image.jpg",
+      username: "ahmed_alhassan",
+      email: "ahmed.hassan@email.com",
+      profileImage: "https://avatar.example.com/ahmed-profile.jpg",
     });
 
     expect(user).toBeDefined();
-    expect(user.username).toBe("testuser");
-    expect(user.email).toBe("test@test.com");
-    expect(user.profileImage).toBe("https://example.com/image.jpg");
+    expect(user.username).toBe("ahmed_alhassan");
+    expect(user.email).toBe("ahmed.hassan@email.com");
+    expect(user.profileImage).toBe("https://avatar.example.com/ahmed-profile.jpg");
   });
 
   // TODO: Test that email must be unique
   it("should require unique email", async () => {
     await User.create({
-      username: "user1",
-      email: "unique@test.com",
-      profileImage: "https://example.com/a.jpg",
+      username: "fatima_ali",
+      email: "fatima.ali@workplace.com",
+      profileImage: "https://cdn.example.com/fatima-avatar.webp",
     });
 
     await expect(
       User.create({
-        username: "user2",
-        email: "unique@test.com",
-        profileImage: "https://example.com/b.jpg",
+        username: "omar_salem",
+        email: "fatima.ali@workplace.com",
+        profileImage: "https://cdn.example.com/omar-avatar.webp",
       })
     ).rejects.toThrow();
   });
@@ -36,16 +36,16 @@ describe("User Model", () => {
   // TODO: Test that username must be unique
   it("should require unique username", async () => {
     await User.create({
-      username: "sameuser",
-      email: "first@test.com",
-      profileImage: "https://example.com/a.jpg",
+      username: "khalid_mohammed",
+      email: "khalid.m@outlook.com",
+      profileImage: "https://profile.example.com/khalid.jpg",
     });
 
     await expect(
       User.create({
-        username: "sameuser",
-        email: "second@test.com",
-        profileImage: "https://example.com/b.jpg",
+        username: "khalid_mohammed",
+        email: "khalid.m.alt@gmail.com",
+        profileImage: "https://profile.example.com/khalid-alt.jpg",
       })
     ).rejects.toThrow();
   });
@@ -54,9 +54,9 @@ describe("User Model", () => {
   it("should validate email format", async () => {
     await expect(
       User.create({
-        username: "bademail",
-        email: "not-an-email",
-        profileImage: "https://example.com/img.jpg",
+        username: "invalid_format",
+        email: "this-is-not-a-valid-email-address",
+        profileImage: "https://img.example.com/profile.jpg",
       })
     ).rejects.toThrow();
   });
@@ -65,9 +65,9 @@ describe("User Model", () => {
   it("should validate profileImage as a valid URL", async () => {
     await expect(
       User.create({
-        username: "imgtest",
-        email: "img@test.com",
-        profileImage: "not-a-url",
+        username: "url_test_user",
+        email: "urltest@domain.com",
+        profileImage: "this-is-definitely-not-a-valid-url-string",
       })
     ).rejects.toThrow();
   });

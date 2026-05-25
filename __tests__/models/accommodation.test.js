@@ -6,54 +6,54 @@ import User from "../../src/models/User.js";
 describe("Accommodation Model", () => {
   it("should create an accommodation", async () => {
     const user = await User.create({
-      username: "owner",
-      email: "owner@test.com",
-      profileImage: "https://example.com/img.jpg",
+      username: "property_owner_ali",
+      email: "ali.properties@rentals.se",
+      profileImage: "https://avatars.example.com/ali-owner.webp",
     });
 
     const acc = await Accommodation.create({
-      address: "Test Street 1",
+      address: "Södermalmvägen 45, lägenhet 201",
       city: "Stockholm",
       country: "Sweden",
-      postalCode: "11122",
-      rent: 12000,
-      rooms: 3,
+      postalCode: "11863",
+      rent: 14500,
+      rooms: 4,
       userId: user._id,
     });
 
     expect(acc).toBeDefined();
-    expect(acc.address).toBe("Test Street 1");
+    expect(acc.address).toBe("Södermalmvägen 45, lägenhet 201");
     expect(acc.city).toBe("Stockholm");
     expect(acc.country).toBe("Sweden");
-    expect(acc.postalCode).toBe("11122");
-    expect(acc.rent).toBe(12000);
-    expect(acc.rooms).toBe(3);
+    expect(acc.postalCode).toBe("11863");
+    expect(acc.rent).toBe(14500);
+    expect(acc.rooms).toBe(4);
     expect(acc.userId.toString()).toBe(user._id.toString());
   });
 
   it("should require all fields", async () => {
     await expect(
       Accommodation.create({
-        city: "Stockholm",
+        city: "Göteborg",
       })
     ).rejects.toThrow();
   });
 
   it("should require rent to be a positive number", async () => {
     const user = await User.create({
-      username: "rentuser",
-      email: "rent@test.com",
-      profileImage: "https://example.com/img.jpg",
+      username: "rent_validator_nora",
+      email: "nora.validator@example.net",
+      profileImage: "https://cdn.example.com/nora-profile.jpg",
     });
 
     await expect(
       Accommodation.create({
-        address: "Bad Rent St",
-        city: "Stockholm",
+        address: "Nordic Street 88",
+        city: "Malmö",
         country: "Sweden",
-        postalCode: "11122",
-        rent: -5000,
-        rooms: 2,
+        postalCode: "21145",
+        rent: -3500,
+        rooms: 3,
         userId: user._id,
       })
     ).rejects.toThrow();
@@ -61,18 +61,18 @@ describe("Accommodation Model", () => {
 
   it("should require rooms to be a positive number", async () => {
     const user = await User.create({
-      username: "roomuser",
-      email: "room@test.com",
-      profileImage: "https://example.com/img.jpg",
+      username: "rooms_validator_yousef",
+      email: "yousef.rooms@validator.org",
+      profileImage: "https://images.example.com/yousef-avatar.png",
     });
 
     await expect(
       Accommodation.create({
-        address: "Bad Rooms St",
-        city: "Stockholm",
+        address: "Uppsala Boulevard 22",
+        city: "Uppsala",
         country: "Sweden",
-        postalCode: "11122",
-        rent: 8000,
+        postalCode: "75235",
+        rent: 9800,
         rooms: 0,
         userId: user._id,
       })
@@ -82,13 +82,13 @@ describe("Accommodation Model", () => {
   it("should reference a valid userId", async () => {
     await expect(
       Accommodation.create({
-        address: "No User St",
-        city: "Stockholm",
+        address: "Västeråsgatan 15",
+        city: "Västerås",
         country: "Sweden",
-        postalCode: "11122",
-        rent: 9000,
+        postalCode: "72131",
+        rent: 11000,
         rooms: 2,
-        userId: "123456789012", // invalid ObjectId
+        userId: "not-a-valid-objectid-format", // invalid ObjectId
       })
     ).rejects.toThrow();
   });
@@ -97,28 +97,28 @@ describe("Accommodation Model", () => {
 describe("Accommodation Cascade Delete", () => {
   it("should delete accommodations when user is deleted", async () => {
     const user = await User.create({
-      username: "cascade",
-      email: "cascade@test.com",
-      profileImage: "https://example.com/img.jpg",
+      username: "cascade_delete_owner_sarah",
+      email: "sarah.cascade@test-example.com",
+      profileImage: "https://cdn.example.com/sarah-profile.webp",
     });
 
     await Accommodation.create({
-      address: "Cascade St 1",
+      address: "Gamla Stan 12, lägenhet 5",
       city: "Stockholm",
       country: "Sweden",
-      postalCode: "11122",
-      rent: 10000,
-      rooms: 2,
+      postalCode: "11129",
+      rent: 18500,
+      rooms: 3,
       userId: user._id,
     });
 
     await Accommodation.create({
-      address: "Cascade St 2",
+      address: "Östermalmvägen 78, lägenhet 12",
       city: "Stockholm",
       country: "Sweden",
-      postalCode: "11122",
-      rent: 15000,
-      rooms: 4,
+      postalCode: "11456",
+      rent: 22500,
+      rooms: 5,
       userId: user._id,
     });
 
